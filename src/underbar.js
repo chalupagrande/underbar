@@ -236,9 +236,8 @@
     //could be more elegant
    return _.reduce(collection, function(passed, item) {
         if(iterator == undefined){
-          return item == passed;
-        }
-        else if(!passed){
+          return item && passed;
+        }else if(!passed){
           return false;
         }else if(item == undefined){
           return false;
@@ -255,6 +254,19 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    return _.reduce(collection, function(passed, item) {
+        if(iterator == undefined){
+          return item || passed;
+        }else if(passed){
+          return true;
+        }else if(item == undefined){
+          return false;
+        }else if(!passed){
+          return iterator(item) != false;
+        }else{
+          return false;
+        }
+    },false);
   };
 
 
