@@ -94,6 +94,13 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var result = [];
+    _.each(collection, function(item, index){
+      if(!test(item)){
+        result.push(item);
+      }
+    })
+    return result;
 
   };
 
