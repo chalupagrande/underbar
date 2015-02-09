@@ -82,7 +82,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var result = [];
-    _.each(collection, function(item, index){
+    _.each(collection, function(item){
       if(test(item)){
         result.push(item);
       }
@@ -95,7 +95,7 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     var result = [];
-    _.each(collection, function(item, index){
+    _.each(collection, function(item){
       if(!test(item)){
         result.push(item);
       }
@@ -184,20 +184,35 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
       var result;
+      var i;
+      //solution
       if(accumulator !== undefined){
         result = accumulator;
-        for(var i = 0; i < collection.length; i++){
-          result = iterator(result, collection[i]);
-        }
-        return result;
+        i = 0;
       }else{
         result = collection[0];
-        for(var j = 1; j < collection.length; j++){
-          result = iterator(result, collection[j]);
-        }
-        return result;
-
+        i = 1;
       }
+      if(Array.isArray(collection)){
+        for(i; i < collection.length; i++){
+          result = iterator(result, collection[i]);
+        }
+      }else{
+        for(i in collection){
+          result = iterator(result, collection[i]);
+        }
+      }
+      return result;
+
+
+
+      /* ~~~~  trying to use _.each attempt ~~~~~ */
+
+      // accumulator !== undefined ? result = accumulator : result = collection[0];
+      // _.each(collection, function(item, index){
+      //   iterator(result, collection[index+1]);
+      // });
+      // return result;
 
 
   };
@@ -218,6 +233,14 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+   return _.reduce(collection, function(passed, item) {
+        if(!passed){
+          return false;
+        }else if(passed){
+          return iterator(item) != false && iterator(item) != undefined ;
+        }
+    },true);
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
