@@ -233,11 +233,19 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    //could be more elegant
    return _.reduce(collection, function(passed, item) {
-        if(!passed){
+        if(iterator == undefined){
+          return item == passed;
+        }
+        else if(!passed){
+          return false;
+        }else if(item == undefined){
           return false;
         }else if(passed){
-          return iterator(item) != false && iterator(item) != undefined ;
+          return iterator(item) != false;
+        }else{
+          return true;
         }
     },true);
 
