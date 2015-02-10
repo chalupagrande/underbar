@@ -217,7 +217,6 @@
 
   };
 
-  // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
@@ -354,16 +353,16 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var alreadyCalled = false;
     var result;
+    var calledArgs = [];
 
-    return function(){
-      if(!alreadyCalled){
-        return result = func.apply(this, arguments);
-        alreadyCalled = true;
-      }else if (alreadyCalled){
-        return result;
+    return function() {
+      if (!_.contains(calledArgs, arguments[0])) {
+        result = func.apply(this, arguments);
+        calledArgs.push(arguments[0]);
       }
+      // The new function always returns the originally computed result.
+      return result;
     }
 
   };
