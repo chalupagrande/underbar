@@ -101,7 +101,6 @@
       }
     })
     return result;
-
   };
 
   // Produce a duplicate-free version of the array.
@@ -120,7 +119,6 @@
       }
     }
     return results;
-
   };
 
 
@@ -364,7 +362,6 @@
       // The new function always returns the originally computed result.
       return result;
     }
-
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -419,6 +416,9 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(){
+      return 
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -426,6 +426,10 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    for(var i in collection){
+
+    }
+
   };
 
   // Zip together two or more arrays with elements of the same index
