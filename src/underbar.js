@@ -218,13 +218,26 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+
+  //   return _.reduce(collection, function(wasFound, item) {
+  //     if (wasFound) {
+  //       return true;
+  //     }
+  //     return item === target;
+  //   }, false);
+
+   // My implementation using _.each instead (used in Recursion sprint)
+    var wasFound = false;
+    _.each(collection,function(item){
+      if(item === target){
+        wasFound = true;
       }
-      return item === target;
-    }, false);
-  };
+    });
+    return wasFound;
+
+ };
+
+
 
 
   // Determine whether all of the elements match a truth test.
@@ -391,6 +404,8 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
+  // this function will sometimes randomly place them in the same order. 
   _.shuffle = function(array) {
     var result = [];
     var visited = [];
@@ -416,9 +431,7 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    return _.map(collection, function(){
-      return 
-    });
+    
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -426,9 +439,7 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-    for(var i in collection){
-
-    }
+    
 
   };
 
@@ -445,6 +456,17 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    if(result === undefined){
+      result = [];
+    }
+    for(var i = 0; i < nestedArray.length;i++){
+      if (!Array.isArray(nestedArray[i])){
+        result.push(nestedArray[i]);
+      }else if(Array.isArray(nestedArray[i])){
+        result = _.flatten(nestedArray[i],result);
+      }
+    }
+    return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
