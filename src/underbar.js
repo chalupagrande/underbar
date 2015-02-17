@@ -94,13 +94,13 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    var result = [];
-    _.each(collection, function(item){
+    var rejects = [];
+    _.filter(collection,function(item){
       if(!test(item)){
-        result.push(item);
+        rejects.push(item);
       }
-    })
-    return result;
+    });
+    return rejects;
   };
 
   // Produce a duplicate-free version of the array.
@@ -201,18 +201,6 @@
         }
       }
       return result;
-
-
-
-      /* ~~~~  trying to use _.each attempt ~~~~~ */
-
-      // accumulator !== undefined ? result = accumulator : result = collection[0];
-      // _.each(collection, function(item, index){
-      //   iterator(result, collection[index+1]);
-      // });
-      // return result;
-
-
   };
 
   _.contains = function(collection, target) {
@@ -226,7 +214,9 @@
   //     return item === target;
   //   }, false);
 
-   // My implementation using _.each instead (used in Recursion sprint)
+   /*-------------------
+    My implementation using _.each instead (used in Recursion sprint)
+    -------------------- */
     var wasFound = false;
     _.each(collection,function(item){
       if(item === target){
@@ -264,20 +254,26 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    //could be more elegant. 
-    return _.reduce(collection, function(passed, item) {
-        if(iterator == undefined){
-          return item || passed;
-        }else if(passed){
-          return true;
-        }else if(item == undefined){
-          return false;
-        }else if(!passed){
-          return iterator(item) != false;
-        }else{
-          return false;
-        }
-    },false);
+
+      if(collection.length === 0){
+        return false;
+      }
+
+      if(iterator === undefined){
+        return _.contains(collection,true);
+      }
+
+      var passed = false;
+      for(var i = 0; i < collection.length;i++){  
+        var temp = collection.slice(i,i+1);
+        _.every(temp,function(item){
+          if(iterator(item)){
+            passed = true;
+            return;
+          }
+        }); 
+      }
+      return passed
   };
 
 
@@ -299,6 +295,7 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
+
   _.extend = function(obj) {
     for(var i = 1; i < arguments.length; i++){
       var tempObj = arguments[i];
