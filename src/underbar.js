@@ -106,19 +106,13 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var results = [];
-    var matches;
-    for(var i = 0; i < array.length; i++){
-      matches = false;
-      for(var j = 0; j < results.length; j++){
-        if(array[i] === results[j]){
-          matches = true;
-        }
+    _.map(array,function(item){
+      if(!_.contains(results, item)){
+        results.push(item);
       }
-      if(!matches){
-        results.push(array[i]);
-      }
-    }
+    });
     return results;
+
   };
 
 
@@ -127,19 +121,12 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-    var results = [];
-    if (Array.isArray(collection)){
-      for(var i = 0; i < collection.length; i++){
-        results.push(iterator(collection[i], i, collection));
-      }
-      return results;
-    }else{
-      for(var j in collection){
-         results.push(iterator(collection[i], i, collection));
-      }
-      return results;
-    }
 
+      var results = [];
+      _.each(collection, function(item){
+        results.push(iterator(item));
+      })
+      return results;
   };
 
   /*
@@ -361,21 +348,8 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    // var result;
-    // var calledArgs = [];
-
-    // return function() {
-    //   if (!_.contains(calledArgs, arguments[0])) {
-    //     result = func.apply(this, arguments);
-    //     calledArgs.push(arguments[0]);
-    //   }
-    //   // The new function always returns the originally computed result.
-    //   return result;
-    // }
 
     var calledArgs = {};
-
-
     return function() {
 
       var argumentsArray = [];
@@ -393,7 +367,6 @@
       
       return calledArgs[argumentsString];
     }
-
 
   };
 
